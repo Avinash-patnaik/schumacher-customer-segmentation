@@ -1,0 +1,26 @@
+Schumacher_Luxe_Intelligence/
+├── .venv/                      
+├── data/  
+│   ├── chormadb/                      
+│   ├── raw/                    
+│   ├── processed/              
+│   └── images/                 
+├── notebooks/                  
+│   └── 01_eda_behavior.ipynb   
+├── src/                        
+│   ├── __init__.py
+│   ├── data_processor.py       
+│   ├── segmentation.py         
+│   └── recommender.py          
+├── ai_engine/                  
+│   ├── __init__.py
+│   ├── vision_matcher.py       
+│   └── text_processor.py       
+├── models/                     
+├── assets/                     
+├── app.py                      
+├── requirements.txt           
+├── .gitignore   
+├── .gitmessage
+├── structure.txt               
+└── README.md                  
