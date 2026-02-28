@@ -1,7 +1,7 @@
 import pandas as pd 
 import os
 
-class DataLoader:
+class DataProcessor:
     def __init__(self, raw_data='data/raw', processed_data='data/processed'):
         self.raw_data = raw_data
         self.processed_data = processed_data
@@ -12,8 +12,8 @@ class DataLoader:
     def load_data(self):
         try:
             self.df_trans = pd.read_csv(os.path.join(self.raw_data, 'transactions.csv'))
-            self.df_cust = pd.read_csv(os.path.join(self.raw_data, 'customers.csv'))
-            self.df_prod = pd.read_csv(os.path.join(self.raw_data, 'products.csv'))
+            self.df_cust = pd.read_csv(os.path.join(self.raw_data, 'customer_master.csv'))
+            self.df_prod = pd.read_csv(os.path.join(self.raw_data, 'item_master.csv'))
             print("Data loaded successfully.")
         except Exception as e:
             print(f"Error loading data: {e}")
