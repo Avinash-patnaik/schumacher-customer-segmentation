@@ -1,0 +1,21 @@
+# CORE DATA SCIENCE 
+pandas
+numpy
+scikit-learn
+scipy
+
+# AI & VECTOR DATABASE 
+transformers        
+torch               
+sentence-transformers 
+chromadb            
+pillow              
+
+# VISUALIZATION & DASHBOARDS 
+streamlit          
+plotly              
+seaborn            
+matplotlib          
+
+# UTILS 
+python-dotenv      
