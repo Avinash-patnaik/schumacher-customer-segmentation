@@ -1,0 +1,19 @@
+# Environments
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Data (Keep raw data off GitHub for security/size)
+data/raw
+data/processed
+data/images
+data/chromadb
+
+
+# Large Model weights
+models/*.pkl
+models/*.pt

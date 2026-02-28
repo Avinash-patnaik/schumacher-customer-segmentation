@@ -1,0 +1,13 @@
+# --- COMMIT TEMPLATE ---
+# Type: feat, fix, docs, style, refactor, data, chore
+# Scope: ai, ui, data-proc, rfm, funnel
+# -----------------------
+<type>(<scope>): <short summary>
+
+[Optional Body: Why was this change necessary? What business KPI does it impact?]
+
+[Optional Footer: Reference any issue numbers or task IDs]
+# -----------------------
+# Example: 
+# feat(ai): add Hugging Face CLIP logic for visual recommendations
+# This implements Objective #3 of the take-home assignment.
