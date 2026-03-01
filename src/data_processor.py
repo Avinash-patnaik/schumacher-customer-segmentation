@@ -30,7 +30,6 @@ class DataProcessor:
         if os.path.exists(output_file) and not force_refresh:
             print(f"📦 Processed data found at {output_file}. Loading existing file...")
             self.df_master = pd.read_csv(output_file, low_memory=False)
-            # Ensure date conversion persists after loading from CSV
             self.df_master['shipped_dt'] = pd.to_datetime(self.df_master['shipped_dt'])
             print(f"✅ Loaded {len(self.df_master):,} records from disk.")
             return
@@ -39,8 +38,6 @@ class DataProcessor:
             print("⚙️ Processing 2M records... This may take a moment.")
             self.df_trans['shipped_dt'] = pd.to_datetime(self.df_trans['shipped_dt'])
             self.df_trans['netrevenue'] = self.df_trans['netrevenue'].fillna(0)
-            
-            # Left Join Chain
             self.df_master = self.df_trans.merge(self.df_cust, on='trade_account_id', how='left')
             self.df_master = self.df_master.merge(self.df_prod, on='item_number', how='left')
             
@@ -54,7 +51,6 @@ class DataProcessor:
             print(f"❌ Error during smart merge: {e}")
             raise e
         
-# Main Execution (for testing)
 if __name__ == "__main__":
     engine = DataProcessor()
     engine.load_data()
