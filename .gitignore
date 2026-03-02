@@ -17,3 +17,5 @@ data/chromadb
 # Large Model weights
 models/*.pkl
 models/*.pt
+
+.env
