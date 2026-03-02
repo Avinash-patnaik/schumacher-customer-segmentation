@@ -1,60 +1,47 @@
-import torch
-from PIL import Image
-import open_clip
-import chromadb
 import os
+import chromadb
+from PIL import Image
+from dotenv import load_dotenv
+from huggingface_hub import InferenceClient
+
+load_dotenv()
 
 class VisionMatcher:
-    def __init__(self, model_name='ViT-B-32', pretrained='laion2b_s34b_b79k'):
+    def __init__(self, model_id="openai/clip-vit-base-patch32"):
         """
-        Initializes the CLIP model for visual feature extraction.
-        CLIP is ideal as it understands the relationship between images and text.
+        Advanced Vision Implementation: Uses CLIP for zero-shot visual similarity.
         """
-        self.model, _, self.preprocess = open_clip.create_model_and_transforms(
-            model_name, pretrained=pretrained
-        )
-        self.tokenizer = open_clip.get_tokenizer(model_name)
-        self.client = chromadb.PersistentClient(path="../data/chromadb")
-        self.collection = self.client.get_or_create_collection(name="product_visuals")
+        self.client = InferenceClient(token=os.getenv("HF_TOKEN"))
+        self.model_id = model_id
+        self.db_client = chromadb.PersistentClient(path=os.getenv("CHROMA_PATH"))
+        self.collection = self.db_client.get_or_create_collection(name="product_visuals")
 
-    def encode_image(self, image_path):
-        """
-        Converts an image file into a normalized vector (embedding).
-        """
-        image = self.preprocess(Image.open(image_path)).unsqueeze(0)
-        with torch.no_grad():
-            image_features = self.model.encode_image(image)
-            image_features /= image_features.norm(dim=-1, keepdim=True)
-        return image_features.cpu().numpy().flatten().tolist()
+    def get_image_embedding(self, image_path: str):
+        """Encodes an image into a vector using HF Inference."""
+        with open(image_path, "rb") as f:
+            image_data = f.read()
+        return self.client.feature_extraction(image_data, model=self.model_id)
 
-    def index_product_images(self, image_folder="../data/images/"):
+    def index_images(self, image_dir: str):
         """
-        Iterates through the product images and stores their vectors in ChromaDB.
+        Indexes the visual assets stored in data/images/.
         """
-        image_files = [f for f in os.listdir(image_folder) if f.endswith(('.jpg', '.png'))]
-        
-        for img_file in image_files:
-            img_path = os.path.join(image_folder, img_file)
-            item_id = img_file.split('.')[0] 
-            
-            embedding = self.encode_image(img_path)
-            
-            self.collection.add(
-                embeddings=[embedding],
-                ids=[item_id],
-                metadatas=[{"file_path": img_path}]
-            )
-        print(f"Indexed {len(image_files)} product images.")
+        valid_extensions = ('.jpg', '.jpeg', '.png')
+        for filename in os.listdir(image_dir):
+            if filename.lower().endswith(valid_extensions):
+                path = os.path.join(image_dir, filename)
+                item_id = filename.split('.')[0] 
+                
+                embedding = self.get_image_embedding(path)
+                self.collection.add(
+                    embeddings=[embedding],
+                    ids=[item_id],
+                    metadatas=[{"path": path}]
+                )
 
-    def find_similar_styles(self, query_image_path, n_results=5):
+    def match_inspiration(self, upload_path: str, n_results=3):
         """
-        Input a custom image (e.g., a customer's inspiration photo) 
-        and find the closest Schumacher products.
+        The 'Designer Inspiration' tool: Matches an uploaded photo to catalog items.
         """
-        query_embedding = self.encode_image(query_image_path)
-        
-        results = self.collection.query(
-            query_embeddings=[query_embedding],
-            n_results=n_results
-        )
-        return results
+        query_embedding = self.get_image_embedding(upload_path)
+        return self.collection.query(query_embeddings=[query_embedding], n_results=n_results)
