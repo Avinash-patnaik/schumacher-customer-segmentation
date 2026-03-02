@@ -4,9 +4,7 @@ import plotly.graph_objects as go
 from PIL import Image
 from src.recommender import SchumacherRecommender
 
-
 st.set_page_config(page_title="Schumacher | Intelligence Suite", layout="wide")
-
 
 st.markdown("""
     <style>
@@ -27,17 +25,19 @@ st.markdown("""
         letter-spacing: 0.05em;
     }
 
-    /* CENTER HEADLINE - INCREASED SIZE & SPACING */
+    /* CENTER HEADLINE - MAXIMUM SIZE & PRESTIGE */
     .headline-style {
         font-family: 'Cormorant Garamond', serif !important;
         font-weight: 700 !important;
         color: #000000 !important;
-        text-transform: uppercase;
-        letter-spacing: 0.5em; /* Increased for prestige */
-        font-size: 8rem;    /* Increased size */
-        margin-bottom: 5px;
-        text-align: center;
-        padding-top: 20px;
+        text-transform: uppercase !important;
+        letter-spacing: 0.6em !important; 
+        font-size: 3rem !important;    /* SIGNIFICANTLY INCREASED SIZE */
+        margin-bottom: 0px !important;
+        text-align: center !important;
+        padding-top: 10px !important;
+        line-height: 1.0 !important;
+        display: block !important;
     }
 
     h2, h3, h4 { 
@@ -72,7 +72,7 @@ st.markdown("""
     [data-testid="stSidebar"] label, 
     [data-testid="stSidebar"] .stMarkdown p,
     [data-testid="stSidebar"] .stSelectbox label {
-        color: #B4975A !important; /* Gold font color */
+        color: #B4975A !important; 
         font-family: 'Montserrat', sans-serif !important;
         text-transform: uppercase;
         letter-spacing: 2px;
@@ -87,7 +87,7 @@ st.markdown("""
     }
 
     div[data-baseweb="select"] * {
-        color: #000000 !important; /* Black text inside Gold dropdown for contrast */
+        color: #000000 !important;
         font-family: 'Montserrat', sans-serif !important;
         font-weight: 600 !important;
     }
@@ -135,7 +135,7 @@ if target_account:
     if not account_df.empty:
         total_ltv = account_df['netrevenue'].sum()
         total_samples = float(account_df['Sample_Count'].sum())
-        segment = account_df['Cluster'].iloc[0] 
+        segment = account_df['Cluster'].iloc[0]
         
         st.markdown('<p class="headline-style">Schumacher Intelligence</p>', unsafe_allow_html=True)
         st.markdown(f"<p style='font-style: italic; color:#444; text-align:center; letter-spacing: 2px; margin-bottom:40px;'>2025 Trade Analytics Suite | Account: {target_account}</p>", unsafe_allow_html=True)
@@ -166,6 +166,7 @@ if target_account:
         
         st.markdown("<br>", unsafe_allow_html=True)
         c1, c2 = st.columns(2)
+        
         with c1:
             st.subheader("Category Affinity")
             st.bar_chart(account_df['category_name'].value_counts(), color="#B4975A")
@@ -177,15 +178,38 @@ if target_account:
             fig = go.Figure(go.Indicator(
                 mode = "gauge+number+delta",
                 value = total_ltv,
-                title = {'text': "Revenue vs Cluster Avg", 'font': {'family': "Montserrat", 'size': 14}},
-                delta = {'reference': avg_revenue, 'increasing': {'color': "#B4975A"}},
+                title = {
+                    'text': "Revenue vs Cluster Avg", 
+                    'font': {'family': "Montserrat", 'size': 18} 
+                },
+                delta = {
+                    'reference': avg_revenue, 
+                    'increasing': {'color': "#B4975A"},
+                    'font': {'size': 18} 
+                },
                 gauge = {
-                    'axis': {'range': [None, avg_revenue * 2], 'tickcolor': "black"},
+                    'axis': {
+                        'range': [None, max(total_ltv, avg_revenue) * 1.2], 
+                        'tickcolor': "black",
+                        'tickfont': {'size': 12}
+                    },
                     'bar': {'color': "#B4975A"},
-                    'bgcolor': "white",
-                    'threshold': {'line': {'color': "black", 'width': 4}, 'thickness': 0.75, 'value': avg_revenue}}))
-
-            fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', font={'color': "black", 'family': "Cormorant Garamond"}, height=300)
+                    'bgcolor': "rgba(255,255,255,0.5)",
+                    'threshold': {
+                        'line': {'color': "black", 'width': 4}, 
+                        'thickness': 0.8, 
+                        'value': avg_revenue
+                    }
+                },
+                number = {'font': {'size': 45}, 'prefix': "$"} 
+            ))
+            
+            fig.update_layout(
+                paper_bgcolor='rgba(0,0,0,0)', 
+                font={'color': "black", 'family': "Cormorant Garamond"}, 
+                height=400, 
+                margin=dict(l=30, r=30, t=40, b=20) 
+            )
             st.plotly_chart(fig, use_container_width=True)
     else:
         st.warning("No data found for this account ID.")
