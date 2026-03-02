@@ -65,9 +65,7 @@ class SchumacherRecommender:
             return "Account ID not found."
         
         cluster_id = account_info['Cluster'].iloc[0]
-    
         recommendations = self.get_cluster_top_sellers(cluster_id, top_n=20)
-
         purchased = set(account_info[account_info['type'] == 'SALE']['item_number'].unique())
         final_recs = recommendations[~recommendations['item_number'].isin(purchased)]
         
