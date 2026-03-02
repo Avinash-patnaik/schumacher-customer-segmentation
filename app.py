@@ -49,7 +49,6 @@ if target_account:
     with col3:
         st.metric("Samples Requested", int(user_data['Sample_Count']))
     with col4:
-        # Calculate individual conversion rate
         individual_cr = (df[(df['trade_account_id'] == target_account) & (df['type'] == 'SALE')].shape[0] / 
                         max(1, user_data['Sample_Count'])) * 100
         st.metric("Conversion Rate", f"{individual_cr:.1f}%")
