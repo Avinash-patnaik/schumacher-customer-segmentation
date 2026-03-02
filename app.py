@@ -15,7 +15,7 @@ st.markdown("""
     header[data-testid="stHeader"] { background: rgba(0,0,0,0); }
     .stApp {
         background-image: linear-gradient(rgba(255,255,255,0.94), rgba(255,255,255,0.94)), 
-                          url('https://www.transparenttextures.com/patterns/linen.png');
+                        url('https://www.transparenttextures.com/patterns/linen.png');
         background-attachment: fixed;
     }
     .main, p, span, label, [data-testid="stMetricLabel"] > label { 
