@@ -1,10 +1,17 @@
 import streamlit as st
+import os
 import pandas as pd
 import plotly.graph_objects as go
 from PIL import Image
 from src.recommender import SchumacherRecommender
 
-st.set_page_config(page_title="Schumacher | Intelligence Suite", layout="wide")
+# Page Configuration
+ICON_PATH = os.path.join(os.getcwd(), "fsco.ico")
+st.set_page_config(
+    page_title="Intelligence Suite", 
+    page_icon=ICON_PATH if os.path.exists(ICON_PATH) else "📧", 
+    layout="wide"
+)
 
 st.markdown("""
     <style>
