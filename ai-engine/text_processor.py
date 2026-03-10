@@ -9,7 +9,7 @@ load_dotenv()
 class TextProcessor:
     def __init__(self, model_id="sentence-transformers/all-MiniLM-L6-v2"):
         """
-        Senior Implementation: Decoupled Embedding Logic using HF Inference API.
+        Decoupled Embedding Logic using HF Inference API.
         """
         self.token = os.getenv("HF_TOKEN")
         self.client = InferenceClient(token=self.token)
@@ -22,10 +22,7 @@ class TextProcessor:
         return self.client.feature_extraction(text, model=self.model_id)
 
     def upsert_catalog(self, df: pd.DataFrame):
-        """
-        Professional Batch Processing: Indexes product metadata for RAG.
-        Uses columns identified in data audit: motif, scale, classification.
-        """
+        
         documents = []
         metadatas = []
         ids = []
