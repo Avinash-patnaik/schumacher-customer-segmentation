@@ -35,7 +35,7 @@ class DataProcessor:
             return
 
         try:
-            print("⚙️ Processing 2M records... This may take a moment.")
+            print("Processing 2M records... This may take a moment.")
             self.df_trans['shipped_dt'] = pd.to_datetime(self.df_trans['shipped_dt'])
             self.df_trans['netrevenue'] = self.df_trans['netrevenue'].fillna(0)
             self.df_master = self.df_trans.merge(self.df_cust, on='trade_account_id', how='left')
@@ -45,12 +45,13 @@ class DataProcessor:
             self.df_master['category_name'] = self.df_master['category_name'].fillna('Uncategorized')
             
             self.df_master.to_csv(output_file, index=False)
-            print(f"💾 Merge complete. Saved new master file to {output_file}")
+            print(f"Merge complete. Saved new master file to {output_file}")
             
         except Exception as e:
-            print(f"❌ Error during smart merge: {e}")
+            print(f"Error during smart merge: {e}")
             raise e
-        
+
+# can be run as a standalone script to process the data and create the master analytical file.       
 if __name__ == "__main__":
     engine = DataProcessor()
     engine.load_data()
