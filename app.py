@@ -418,7 +418,7 @@ with st.sidebar:
                     color:{MUTED}; letter-spacing:0.1em; line-height:2;'>
             F. Schumacher &amp; Co.<br>
             <span style='font-family:{MONO}; font-size:0.6rem; font-style:normal;
-                         letter-spacing:0.16em; text-transform:uppercase;'>
+                            letter-spacing:0.16em; text-transform:uppercase;'>
                 Trade Intelligence Platform<br>© 2025 · Confidential
             </span>
         </div>
@@ -472,11 +472,11 @@ st.markdown(f"""
                 gap:16px; flex-wrap:wrap; margin-top:6px;'>
         <span class="kpi-badge">Tier · {segment}</span>
         <span style='font-family:{MONO}; font-size:0.82rem; color:{SOFT};
-                     letter-spacing:0.1em;'>
+                        letter-spacing:0.1em;'>
             {delta_sign} {abs(revenue_delta):.1f}% vs cluster average
         </span>
         <span style='font-family:{MONO}; font-size:0.82rem; color:{MUTED};
-                     letter-spacing:0.08em;'>
+                        letter-spacing:0.08em;'>
             ID: {target_account}
         </span>
     </div>
@@ -486,12 +486,12 @@ st.markdown(f"""
 k1, k2, k3, k4, k5 = st.columns(5, gap="medium")
 k1.metric("Account Tier",    segment)
 k2.metric("2025 Revenue",    f"${total_ltv:,.0f}",
-          delta=f"{delta_sign} {abs(revenue_delta):.1f}% vs cluster")
+            delta=f"{delta_sign} {abs(revenue_delta):.1f}% vs cluster")
 k3.metric("Sample Volume",   f"{total_samples:,}")
 k4.metric("Sales Converted", f"{total_sales:,}")
 k5.metric("Conversion Rate", f"{conv_rate:.1f}%",
-          delta=f"{total_sales} of {total_samples} samples",
-          delta_color="off")
+            delta=f"{total_sales} of {total_samples} samples",
+            delta_color="off")
 
 st.markdown("<div style='height:12px;'></div>", unsafe_allow_html=True)
 
@@ -520,8 +520,8 @@ with col_left:
         textposition='outside',
         textfont=dict(family=MONO, color=SOFT, size=12),
         hovertemplate='<b style="font-family:' + SERIF + '; font-size:15px;">%{y}</b><br>'
-                      '<span style="font-family:' + MONO + ';">%{x} transactions</span>'
-                      '<extra></extra>',
+                        '<span style="font-family:' + MONO + ';">%{x} transactions</span>'
+                        '<extra></extra>',
     ))
     fig_bar.update_layout(
         paper_bgcolor='rgba(0,0,0,0)',
@@ -757,11 +757,11 @@ if recs is not None and not recs.empty:
                 <div style='display:flex; justify-content:space-between;
                             align-items:flex-start; margin-bottom:16px;'>
                     <span style='font-family:{MONO}; font-size:0.7rem; letter-spacing:0.18em;
-                                 color:{MUTED}; text-transform:uppercase;'>
+                                color:{MUTED}; text-transform:uppercase;'>
                         {rec.category_name}
                     </span>
                     <span style='font-family:{SERIF}; font-size:1.8rem;
-                                 color:{GHOST}; font-weight:600; line-height:1;'>
+                                color:{GHOST}; font-weight:600; line-height:1;'>
                         {numerals[i]}
                     </span>
                 </div>
@@ -773,11 +773,11 @@ if recs is not None and not recs.empty:
                 <div style='border-top:1px solid {GHOST}; padding-top:16px;
                             display:flex; justify-content:space-between; align-items:center;'>
                     <span style='font-family:{MONO}; font-size:0.7rem;
-                                 color:{MUTED}; letter-spacing:0.14em; text-transform:uppercase;'>
+                                color:{MUTED}; letter-spacing:0.14em; text-transform:uppercase;'>
                         SKU
                     </span>
                     <span style='font-family:{MONO}; font-size:0.82rem;
-                                 color:{GOLD}; letter-spacing:0.1em; font-weight:500;'>
+                                color:{GOLD}; letter-spacing:0.1em; font-weight:500;'>
                         {rec.item_number}
                     </span>
                 </div>
@@ -794,7 +794,7 @@ section_header("04", "Transaction Ledger")
 with st.expander("View Recent Transactions", expanded=False):
     display_cols = [c for c in
                     ['shipped_dt', 'type', 'category_name',
-                     'item_number', 'motif', 'netrevenue']
+                    'item_number', 'motif', 'netrevenue']
                     if c in account_df.columns]
 
     recent = (

@@ -21,7 +21,7 @@ class VisionMatcher:
             image_data = f.read()
         return self.client.feature_extraction(image_data, model=self.model_id)
 
-    def index_images(self, image_dir: str):
+    def index_images(self, image_dir: str = "./data/images"):
         
         valid_extensions = ('.jpg', '.jpeg', '.png')
         for filename in os.listdir(image_dir):
